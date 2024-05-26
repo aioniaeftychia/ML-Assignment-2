@@ -89,13 +89,28 @@ def clean(matrix, e):
 # Verify the shape of the reshaped images array
 print("Images shape:", images.shape)
 data_point_index = 0
+
+rotated_images = images.copy()
+# Plot the selected image
+for i in range(len(images)):
+    # Rotate the image by 180 degrees if the rotation value is 2
+    if rotations[i] == 2:
+        images[i] = np.rot90(images[i], 2)
+        
+    if rotations[i] == 1:
+        images[i] = np.rot90(images[i], 3)
+    
+    if rotations[i] == 3:
+        images[i] = np.rot90(images[i], 1)
+        
 while data_point_index != -1:
     # Choose the data point index to plot
     data_point_index = int(input(f"Enter an index between 0 and {len(images) - 1}: "))
 
     if data_point_index == -1:
         break
-
+    
+    
     # Ensure the chosen index is within the valid range
     if data_point_index < 0 or data_point_index >= len(images):
         raise IndexError(f"Index {data_point_index} is out of bounds. Please enter a valid index.")
@@ -106,5 +121,3 @@ while data_point_index != -1:
     plt.imshow(current_datapoint, cmap='gray')
     plt.title(f'Label: {labels[data_point_index]}, Rotation: {rotations[data_point_index]}')
     plt.show()
-
-
