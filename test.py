@@ -85,6 +85,14 @@ def clean(matrix, e):
             matrix[r, c] = centre(matrix[r, c], matrix[r, c-1], matrix[r, c+1], matrix[r-1, c], matrix[r+1, c], e)
 
     return matrix
+def darken(matrix, e):
+    row = matrix.shape[0]
+    col = matrix.shape[1]
+    for r in range(row):
+        for c in range(col):
+            if matrix[r, c] < e:
+                matrix[r, c] = 10
+    return matrix
 
 # Verify the shape of the reshaped images array
 print("Images shape:", images.shape)
@@ -100,7 +108,10 @@ while data_point_index != -1:
     if data_point_index < 0 or data_point_index >= len(images):
         raise IndexError(f"Index {data_point_index} is out of bounds. Please enter a valid index.")
 
-    current_datapoint = clean(images[data_point_index], 180)
+    current_datapoint = clean(images[data_point_index], 160)
+    current_datapoint = darken(images[data_point_index], 90)
+    current_datapoint = clean(images[data_point_index], 50)
+    
    # current_datapoint = images[data_point_index]
     # Plot the selected image
     plt.imshow(current_datapoint, cmap='gray')
